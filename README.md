@@ -6,7 +6,7 @@
 ## Installation
 
 ``` sh
-npm install --save axios-digest
+npm install --save git+https://github.com/emoto-kc-ak/axios-digest-2.git#axios-digest2
 ```
 
 ## Usage
