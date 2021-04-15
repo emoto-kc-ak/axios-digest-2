@@ -93,9 +93,15 @@ export default class AxiosDigest {
   ) {
     const paramsString: string[] = authHeader.split(/\s*,?\s*Digest\s*/).filter((v) => v !== '');
     const paramsArray: string[][] = paramsString.map((v) => v.split(/\s*,(?=(?:[^"]*"[^"]*")*)\s*/));
-    const paramsKvArray: [string, string][][] = paramsArray.map((v) => v.map((value) => {
-      const ret = value.split(/\s*=(?:(?=[^"]*"[^"]*")|(?!"))\s*/, 2).map((v2) => v2.replace(/^"/, '').replace(/"$/, ''));
-      return [ret[0], ret[1]];
+    const paramsKvArray: [string, string][][] = paramsArray.map((v) => v.map((param) => {
+      const match = param.match(/^\s*([^=]+)\s*=(.*)$/);
+      if (match == null) {
+        throw new Error(`Auth params error. key=value pair is expected but ${param} was given`);
+      }
+      return [
+        match[1],
+        match[2].trim().replace(/^"|"$/g, ''),
+      ];
     }));
     const paramsMapArray: {[s: string]: string}[] = paramsKvArray.map((v) => {
       const t: {[s: string]: string} = {};
@@ -105,7 +111,7 @@ export default class AxiosDigest {
       });
       return t;
     });
-    const calams = ['realm', 'nonce', 'qop', 'opaque'];
+    const calams = ['realm', 'nonce', 'qop']; // required columns(?). "opaque" is optional
     const paramsCalamsOk = paramsMapArray.map((v) => {
       if (!('algorithm' in v)) {
         // eslint-disable-next-line no-param-reassign
@@ -166,7 +172,7 @@ export default class AxiosDigest {
       qop,
       algorithm,
       response,
-      opaque,
+      ...(opaque != null ? {opaque} : {}), // opaque is optional
     };
 
     const auth = `Digest ${Object.keys(dh).map((v) => `${v}="${dh[v]}"`).join(', ')}`;
