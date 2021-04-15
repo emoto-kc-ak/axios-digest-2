@@ -1,23 +1,21 @@
 {
-  "name": "axios-digest",
-  "version": "0.2.0",
-  "description": "",
+  "name": "axios-digest-2",
+  "version": "0.1.0",
+  "description": "Modified axios-digest (https://github.com/rearn/axios-digest)",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "test": "jest",
     "lint": "eslint 'index.ts'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rearn/axios-digest.git"
+    "url": "git+https://github.com/emoto-kc-ak/axios-digest-2.git"
   },
-  "author": "minamibashi rearn <minamibashi@rearn.info> (https://github.com/rearn)",
+  "author": "Kikuo Emoto <emoto.kc@om.asahi-kasei.co.jp>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rearn/axios-digest/issues"
-  },
-  "homepage": "https://github.com/rearn/axios-digest#readme",
+  "homepage": "https://github.com/emoto-kc-ak/axios-digest-2#readme",
   "devDependencies": {
     "@types/jest": "^26.0.10",
     "@types/js-md5": "^0.4.2",
